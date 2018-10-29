@@ -1,11 +1,21 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableHighlight } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableHighlight
+} from "react-native";
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.home}>
+          <Image
+            style={styles.imgTexas}
+            source={require("./assets/texas.png")}
+          />
           <Text style={styles.howdy}>HOWDY!</Text>
           <Text style={styles.intro}>
             Let's find your location for the most accurate air quality, pollen,
@@ -18,6 +28,7 @@ export default class App extends React.Component {
             <Text style={styles.btnText}>SEARCH ZIPCODE</Text>
           </TouchableHighlight>
         </View>
+        <Image style={styles.imgCAF} source={require("./assets/CAF.png")} />
       </View>
     );
   }
@@ -38,11 +49,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10
   },
+  imgTexas: {
+    width: 100,
+    height: 100,
+    marginTop: 20
+  },
   howdy: {
     color: "#4169e1",
     fontSize: 25,
     fontWeight: "bold",
-    margin: 30
+    margin: 15
   },
   intro: {
     textAlign: "center",
@@ -65,5 +81,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     textAlign: "center"
+  },
+  imgCAF: {
+    height: 100,
+    width: 100,
+    backgroundColor: "#fff",
+    borderRadius: 50,
+    marginTop: 150
   }
 });
