@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   home: {
     backgroundColor: "#fff",
     height: 450,
-    width: 350,
+    width: 300,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10
