@@ -11,6 +11,11 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <View>
+          <Text>AIR QUALITY</Text>
+          <Text>POLLEN</Text>
+          <Text>WEATHER</Text>
+        </View>
         <View style={styles.home}>
           <Image
             style={styles.imgTexas}
