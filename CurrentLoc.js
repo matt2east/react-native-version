@@ -1,18 +1,20 @@
 import React from "react";
 import { View, Text } from "react-native";
-import getMoviesFromApi from "./utils/api.js";
+import fetchData from "./utils/api.js";
 
 class CurrentLoc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movies: []
+      data: []
     };
   }
 
   async componentDidMount() {
-    const data = await getMoviesFromApi();
-    this.setState({ movies: data });
+    const data = await fetchData();
+    this.setState({
+      data
+    });
   }
 
   render() {
