@@ -2,6 +2,7 @@ import React from "react";
 import { Platform, View, Text } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 import axios from "axios";
+import AIR_NOW_API from "./utils/secret.js";
 
 class CurrentLoc extends React.Component {
   state = {
@@ -32,10 +33,9 @@ class CurrentLoc extends React.Component {
     let currentDate = new Date();
     currentDate = currentDate.toISOString().split("T")[0];
     const encodedURI = window.encodeURI(
-      `http://www.airnowapi.org/aq/forecast/zipCode/?format=application/json&zipCode=${postalCode}&date=${currentDate}&distance=25&API_KEY=98394834-0971-40F7-82FE-8752A5FA0D51`
+      `http://www.airnowapi.org/aq/forecast/zipCode/?format=application/json&zipCode=${postalCode}&date=${currentDate}&distance=25&API_KEY=${AIR_NOW_API}`
     );
     const { data } = await axios.get(encodedURI);
-
     this.setState({
       address,
       data
