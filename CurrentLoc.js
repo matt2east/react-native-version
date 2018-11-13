@@ -1,8 +1,9 @@
 import React from "react";
-import { Platform, View, Text } from "react-native";
+import { Platform, View, Text, ScrollView, StyleSheet } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 import axios from "axios";
 import AIR_NOW_API from "./utils/secret.js";
+// import TodaysConditions from "./components/TodaysConditions";
 
 class CurrentLoc extends React.Component {
   state = {
@@ -58,11 +59,24 @@ class CurrentLoc extends React.Component {
     if (this.state.errorMessage) {
       text = this.state.errorMessage;
     } else if (this.state.address) {
-      text = JSON.stringify(this.state);
+      text = "This is the forecast:";
     }
     return (
       <View>
         <Text>{text}</Text>
+        {!this.state.data[0] ? (
+          <Text>LOADING</Text>
+        ) : (
+          <View>
+            <Text>AIR QUALITY</Text>
+            <Text>{this.state.data[0].DateForecast}</Text>
+            <Text>{this.state.data[0].Category.Name}</Text>
+            <Text>{this.state.data[0].Category.Number}</Text>
+            {/* <ScrollView>
+              <Text>{JSON.stringify(this.state.data, null, 2)}</Text>
+            </ScrollView> */}
+          </View>
+        )}
       </View>
     );
   }
