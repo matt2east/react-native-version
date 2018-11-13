@@ -33,7 +33,6 @@ export default class HomeScreen extends React.Component {
               style={styles.btnText}
               onPress={() => navigate("CurrentLoc")}
             />
-            {/* <Text style={styles.btnText}>CURRENT LOCATION</Text> */}
           </TouchableHighlight>
           <TouchableHighlight style={styles.btn}>
             <Text style={styles.btnText}>SEARCH ZIPCODE</Text>
