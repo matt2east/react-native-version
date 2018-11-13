@@ -2,7 +2,7 @@ import React from "react";
 import { Platform, View, Text, ScrollView, StyleSheet } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 import axios from "axios";
-import AIR_NOW_API from "./utils/secret.js";
+import AIR_NOW_API from "../utils/secret.js";
 // import TodaysConditions from "./components/TodaysConditions";
 
 class CurrentLoc extends React.Component {

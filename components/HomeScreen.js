@@ -10,8 +10,9 @@ import {
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
-    title: "Welcome"
+    title: "Home"
   };
+
   render() {
     const { navigate } = this.props.navigation;
 
@@ -20,7 +21,7 @@ export default class HomeScreen extends React.Component {
         <View style={styles.home}>
           <Image
             style={styles.imgTexas}
-            source={require("./assets/texas.png")}
+            source={require("../assets/texas.png")}
           />
           <Text style={styles.howdy}>HOWDY!</Text>
           <Text style={styles.intro}>
@@ -30,15 +31,19 @@ export default class HomeScreen extends React.Component {
           <TouchableHighlight style={styles.btn}>
             <Button
               title="CURRENT LOCATION"
-              style={styles.btnText}
+              color="#fff"
               onPress={() => navigate("CurrentLoc")}
             />
           </TouchableHighlight>
           <TouchableHighlight style={styles.btn}>
-            <Text style={styles.btnText}>SEARCH ZIPCODE</Text>
+            <Button
+              title="SEARCH ZIPCODE"
+              color="#fff"
+              onPress={() => navigate("CurrentLoc")}
+            />
           </TouchableHighlight>
         </View>
-        <Image style={styles.imgCAF} source={require("./assets/CAF.png")} />
+        <Image style={styles.imgCAF} source={require("../assets/CAF.png")} />
       </View>
     );
   }
@@ -53,7 +58,7 @@ const styles = StyleSheet.create({
   },
   home: {
     backgroundColor: "#fff",
-    height: 450,
+    height: 470,
     width: 300,
     justifyContent: "center",
     alignItems: "center",
@@ -85,12 +90,6 @@ const styles = StyleSheet.create({
     padding: 5,
     width: 250,
     margin: 10
-  },
-  btnText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 20,
-    textAlign: "center"
   },
   imgCAF: {
     height: 100,
