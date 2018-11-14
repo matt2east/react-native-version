@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, View, Text, ScrollView, StyleSheet } from "react-native";
+import { Platform, View, Text, StyleSheet } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 import axios from "axios";
 import { AIR_NOW_API, WEATHER_API } from "../utils/secret.js";

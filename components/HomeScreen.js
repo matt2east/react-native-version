@@ -5,7 +5,8 @@ import {
   View,
   Image,
   TouchableHighlight,
-  Button
+  Button,
+  ScrollView
 } from "react-native";
 
 export default class HomeScreen extends React.Component {
@@ -54,7 +55,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#4169e1",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingTop: 10
   },
   home: {
     backgroundColor: "#fff",
@@ -92,10 +94,10 @@ const styles = StyleSheet.create({
     margin: 10
   },
   imgCAF: {
-    height: 100,
-    width: 100,
+    height: 70,
+    width: 70,
     backgroundColor: "#fff",
-    borderRadius: 50,
-    marginTop: 150
+    borderRadius: 35,
+    marginTop: 50
   }
 });
