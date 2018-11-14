@@ -3,7 +3,8 @@ import { Platform, View, Text, ScrollView, StyleSheet } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 import axios from "axios";
 import { AIR_NOW_API, WEATHER_API } from "../utils/secret.js";
-import { AirQuality } from "./AirQuality.js";
+import { AirQuality } from "./AirQuality";
+import { Weather } from "./Weather";
 
 class ForeCast extends React.Component {
   state = {
@@ -78,28 +79,31 @@ class ForeCast extends React.Component {
     let text = "Waiting...";
     if (this.state.errorMessage) {
       text = this.state.errorMessage;
-    } else if (this.state.address) {
+    } else if (this.state.postalCode) {
       text = "Today's Conditions";
     }
-    console.log(this.state);
     return (
       <View style={styles.container}>
-        {/* <View>
+        <View>
           <Text style={styles.headerTab}>{text}</Text>
-          {!this.state.data[0] ? (
+          {!this.state.aqi[0] ? (
             <Text style={styles.header}>AIR QUALITY</Text>
           ) : (
             <View>
               <AirQuality
-                aqi={this.state.data[0].AQI}
-                name={this.state.data[0].Category.Name.toUpperCase()}
+                aqi={this.state.aqi[0].AQI}
+                name={this.state.aqi[0].Category.Name.toUpperCase()}
               />
-              <View>{JSON.stringify(this.state.weather, null, 2)}</View>
+              <Weather
+                temperature={Math.floor(
+                  Number(this.state.weather.currently.temperature)
+                )}
+                icon={this.state.weather.currently.icon}
+                summary={this.state.weather.currently.summary}
+              />
             </View>
           )}
-        </View> */}
-        <View>{JSON.stringify(this.state.location, null, 2)}</View>
-        {/* <View>{JSON.stringify(this.state.weather, null, 2)}</View> */}
+        </View>
       </View>
     );
   }

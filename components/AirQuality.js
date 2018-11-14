@@ -16,9 +16,6 @@ export const AirQuality = props => {
           </Text>
           <Text style={styles.name}>{name}</Text>
         </View>
-        {/* <ScrollView>
-                  <Text>{JSON.stringify(this.state.data, null, 2)}</Text>
-                </ScrollView> */}
       </View>
     </View>
   );
@@ -40,7 +37,6 @@ const styles = StyleSheet.create({
     height: 200
   },
   aqi: {
-    backgroundColor: "pink",
     width: 150,
     display: "flex",
     alignItems: "center",
