@@ -3,9 +3,9 @@ import { Platform, View, Text, ScrollView, StyleSheet } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 import axios from "axios";
 import AIR_NOW_API from "../utils/secret.js";
-// import TodaysConditions from "./components/TodaysConditions";
+import { AirQuality } from "./AirQuality.js";
 
-class CurrentLoc extends React.Component {
+class ForeCast extends React.Component {
   state = {
     location: null,
     errorMessage: null,
@@ -43,7 +43,7 @@ class CurrentLoc extends React.Component {
     });
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     if (Platform.OS === "android" && !Constants.isDevice) {
       this.setState({
         errorMessage:
@@ -59,27 +59,42 @@ class CurrentLoc extends React.Component {
     if (this.state.errorMessage) {
       text = this.state.errorMessage;
     } else if (this.state.address) {
-      text = "This is the forecast:";
+      text = "Today's Conditions";
     }
     return (
-      <View>
-        <Text>{text}</Text>
-        {!this.state.data[0] ? (
-          <Text>LOADING</Text>
-        ) : (
-          <View>
-            <Text>AIR QUALITY</Text>
-            <Text>{this.state.data[0].DateForecast}</Text>
-            <Text>{this.state.data[0].Category.Name}</Text>
-            <Text>{this.state.data[0].Category.Number}</Text>
-            {/* <ScrollView>
-              <Text>{JSON.stringify(this.state.data, null, 2)}</Text>
-            </ScrollView> */}
-          </View>
-        )}
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.headerTab}>{text}</Text>
+          {!this.state.data[0] ? (
+            <Text style={styles.header}>AIR QUALITY</Text>
+          ) : (
+            <AirQuality
+              aqi={this.state.data[0].AQI}
+              name={this.state.data[0].Category.Name.toUpperCase()}
+            />
+          )}
+        </View>
       </View>
     );
   }
 }
 
-export default CurrentLoc;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-between"
+  },
+  headerTab: {
+    fontSize: 20
+  },
+  header: {
+    fontSize: 25,
+    backgroundColor: "#4169e1",
+    color: "#fff",
+    margin: 0,
+    padding: 0,
+    height: 40
+  }
+});
+
+export default ForeCast;

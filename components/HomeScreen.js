@@ -32,14 +32,14 @@ export default class HomeScreen extends React.Component {
             <Button
               title="CURRENT LOCATION"
               color="#fff"
-              onPress={() => navigate("CurrentLoc")}
+              onPress={() => navigate("ForeCast")}
             />
           </TouchableHighlight>
           <TouchableHighlight style={styles.btn}>
             <Button
               title="SEARCH ZIPCODE"
               color="#fff"
-              onPress={() => navigate("CurrentLoc")}
+              onPress={() => navigate("ForeCast")}
             />
           </TouchableHighlight>
         </View>
