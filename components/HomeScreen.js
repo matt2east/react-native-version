@@ -98,6 +98,6 @@ const styles = StyleSheet.create({
     width: 70,
     backgroundColor: "#fff",
     borderRadius: 35,
-    marginTop: 50
+    marginTop: 40
   }
 });
