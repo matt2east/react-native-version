@@ -40,7 +40,7 @@ export default class HomeScreen extends React.Component {
             <Button
               title="SEARCH ZIPCODE"
               color="#fff"
-              onPress={() => navigate("ForeCast")}
+              onPress={() => navigate("InputZip")}
             />
           </TouchableHighlight>
         </View>
