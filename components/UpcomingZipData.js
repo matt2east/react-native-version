@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import axios from "axios";
 
-class TodayZipData extends React.Component {
+class UpcomingZipData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,21 +36,34 @@ class TodayZipData extends React.Component {
       };
       //takes off quotes from String
 
-      const dateObj = new Date();
-      let month = dateObj.getUTCMonth() + 1; //months from 1-12
-      let day = dateObj.getUTCDate();
-      const year = dateObj.getUTCFullYear();
+      var dateObj = new Date();
+      var month = dateObj.getUTCMonth() + 1; //months from 1-12
+      var day = dateObj.getUTCDate();
+      var year = dateObj.getUTCFullYear();
+      var nextDay = new Date(dateObj);
+      nextDay.setDate(dateObj.getDate() + 1);
+      
       if (month < 10) {
         month = "0" + month;
       }
       if (day < 10) {
         day = "0" + day;
       }
-      const newdate = year + "-" + month + "-" + day;
+      var newdate = year + "-" + month + "-" + day;
+      var tomorrowMonth = nextDay.getUTCMonth() + 1;
+      var tomorrowDay = nextDay.getUTCDate();
+      var tomorrowYear = nextDay.getUTCFullYear();
+      if (tomorrowMonth < 10) {
+        tomorrowMonth = "0" + tomorrowMonth;
+      }
+      if (tomorrowDay < 10) {
+        tomorrowDay = "0" + tomorrowDay;
+      }
+      var tomorrow = tomorrowYear + "-" + tomorrowMonth + "-" + tomorrowDay;
 
       const zip = await this.getZip();
       const encodedURI = window.encodeURI(
-        `http://www.airnowapi.org/aq/forecast/zipCode/?format=application/json&zipCode=${zip}&date=${newdate}&distance=25&API_KEY=98394834-0971-40F7-82FE-8752A5FA0D51`
+        `http://www.airnowapi.org/aq/forecast/zipCode/?format=application/json&zipCode=${zip}&date=${tomorrow}&distance=25&API_KEY=98394834-0971-40F7-82FE-8752A5FA0D51`
       );
       const { data } = await axios.get(encodedURI);
       const aqdata = JSON.stringify(data[0].Category.Name);
@@ -58,7 +71,7 @@ class TodayZipData extends React.Component {
       this.setState({
         airQuality: airQuality
       });
-      console.log("today " + data);
+      console.log("tommorow " + data);
     } catch (err) {
       console.log(err);
     }
@@ -68,10 +81,10 @@ class TodayZipData extends React.Component {
     const { airQuality } = this.state;
     return (
       <View>
-        <Text>Today's Conditions</Text>
+        <Text>Forecast Conditions</Text>
         <Button
-          title="Forecast Conditions"
-          onPress={() => this.props.navigation.navigate("UpcomingZipData")}
+          title="Today's Conditions"
+          onPress={() => this.props.navigation.navigate("FetchExample")}
         />
         <Text>{`\n`}</Text>
         <Text>The air quality index is currently: {airQuality}</Text>
@@ -79,4 +92,5 @@ class TodayZipData extends React.Component {
     );
   }
 }
-export default TodayZipData ;
+
+export default UpcomingZipData;
