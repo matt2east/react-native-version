@@ -8,12 +8,14 @@ export const Weather = props => {
     <View>
       <Text style={styles.header}>WEATHER</Text>
       <View style={styles.content}>
-        <Text style={styles.temp}>{temperature}</Text>
-        <View>
+        <View style={styles.temp}>
+          <Text style={styles.tempNumber}>{temperature}</Text>
+        </View>
+        <View style={styles.box}>
           <Text>{icon}</Text>
         </View>
-        <View>
-          <Text>{summary}</Text>
+        <View style={styles.box}>
+          <Text style={styles.summary}>{summary}</Text>
         </View>
       </View>
     </View>
@@ -37,7 +39,20 @@ const styles = StyleSheet.create({
     height: 200
   },
   temp: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 150
+  },
+  tempNumber: {
     fontSize: 40,
     fontWeight: "bold"
+  },
+  box: {
+    display: "flex",
+    justifyContent: "center"
+  },
+  summary: {
+    fontSize: 20
   }
 });

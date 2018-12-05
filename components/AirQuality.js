@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   aqiNumber: {
-    fontSize: 30,
+    fontSize: 40,
     fontWeight: "bold"
   },
   reading: {
