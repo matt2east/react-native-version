@@ -8,6 +8,7 @@ import {
   Button
 } from "react-native";
 import axios from "axios";
+import { AIR_NOW_API, WEATHER_API } from "../utils/secret.js";
 
 class TodayZipData extends React.Component {
   constructor(props) {
@@ -50,7 +51,7 @@ class TodayZipData extends React.Component {
 
       const zip = await this.getZip();
       const encodedURI = window.encodeURI(
-        `http://www.airnowapi.org/aq/forecast/zipCode/?format=application/json&zipCode=${zip}&date=${newdate}&distance=25&API_KEY=98394834-0971-40F7-82FE-8752A5FA0D51`
+        `http://www.airnowapi.org/aq/forecast/zipCode/?format=application/json&zipCode=${zip}&date=${newdate}&distance=25&API_KEY=${AIR_NOW_API}`
       );
       const { data } = await axios.get(encodedURI);
       const aqdata = JSON.stringify(data[0].Category.Name);
