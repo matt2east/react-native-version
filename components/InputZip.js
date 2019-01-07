@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Button, Text, AsyncStorage } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Button,
+  Text,
+  AsyncStorage,
+  Alert
+} from "react-native";
 import t from "tcomb-form-native";
 var isValidZip = require("is-valid-zip");
 
@@ -66,12 +73,23 @@ class InputZip extends Component {
             console.log(result);
             if (err) console.log(err);
           });
+          this.props.navigation.navigate("TodayZipData");
         });
       } else {
         console.log("not valid zip code");
+        Alert.alert(
+          "Not a valid zip code.",
+          "Please enter a valid zip code.",
+          [
+            {
+              text: "OK",
+              onPress: () => this.props.navigation.navigate("InputZip")
+            }
+          ],
+          { cancelable: false }
+        );
       }
     });
-    this.props.navigation.navigate("TodayZipData")
   };
 
   render() {
