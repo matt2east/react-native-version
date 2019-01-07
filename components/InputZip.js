@@ -8,10 +8,12 @@ import {
   Alert
 } from "react-native";
 import t from "tcomb-form-native";
+import { AirQuality } from "./AirQuality";
+import { Weather } from "./Weather";
+
+
 var isValidZip = require("is-valid-zip");
-
 const Form = t.form.Form;
-
 const Zip = t.struct({
   zipcode: t.maybe(t.String)
 });
