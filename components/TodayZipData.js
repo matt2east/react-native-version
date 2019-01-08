@@ -124,6 +124,10 @@ class TodayZipData extends React.Component {
               />
             </View>
           )}
+          <Button
+            title="Forecast Conditions"
+            onPress={() => this.props.navigation.navigate("UpcomingZipData")}
+          />
         </View>
       </View>
     );

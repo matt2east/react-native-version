@@ -83,12 +83,12 @@ class UpcomingZipData extends React.Component {
     return (
       <View>
         <Text>Forecast Conditions</Text>
+        <Text>{`\n`}</Text>
+        <Text>The air quality index is currently: {airQuality}</Text>
         <Button
           title="Today's Conditions"
           onPress={() => this.props.navigation.navigate("FetchExample")}
         />
-        <Text>{`\n`}</Text>
-        <Text>The air quality index is currently: {airQuality}</Text>
       </View>
     );
   }
