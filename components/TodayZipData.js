@@ -83,16 +83,16 @@ class TodayZipData extends React.Component {
               aqi,
               weather
             });
-            console.log(
-              "the air quality is " + this.state.aqi[0].Category.Name
-            );
-            console.log(
-              "the weather is " + this.state.weather.currently.summary
-            );
-            console.log(
-              "the temperature is " +
-                Math.floor(this.state.weather.currently.temperature)
-            );
+            // console.log(
+            //   "the air quality is " + this.state.aqi[0].Category.Name
+            // );
+            // console.log(
+            //   "the weather is " + this.state.weather.currently.summary
+            // );
+            // console.log(
+            //   "the temperature is " +
+            //     Math.floor(this.state.weather.currently.temperature)
+            // );
           })
         )
         .catch(err => console.log(err));
@@ -105,7 +105,7 @@ class TodayZipData extends React.Component {
     return (
       <View style={styles.container}>
         <View>
-          <Text style={styles.headerTab}>Today's conditions</Text>
+          <Text style={styles.headerTab}>Today's Conditions</Text>
           {!this.state.aqi[0] ? (
             <Text style={styles.header}>AIR QUALITY</Text>
           ) : (
@@ -124,7 +124,7 @@ class TodayZipData extends React.Component {
             </View>
           )}
           <Button
-            title="Forecast Conditions"
+            title="Tomorrow's Conditions"
             onPress={() => this.props.navigation.navigate("UpcomingZipData")}
           />
         </View>

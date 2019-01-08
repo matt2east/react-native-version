@@ -5,16 +5,21 @@ import {
   Text,
   View,
   AsyncStorage,
-  Button
+  Button,
+  StyleSheet
 } from "react-native";
 import axios from "axios";
-import { AIR_NOW_API, WEATHER_API } from "../utils/secret.js";
+import { AIR_NOW_API, WEATHER_API, ZIP_CODE_API } from "../utils/secret.js";
+import { AirQuality } from "./AirQuality";
+import { Weather } from "./Weather";
 
 class UpcomingZipData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      airQuality: ""
+      aqi: [],
+      weather: {},
+      errorMessage: null
     };
   }
 
@@ -43,7 +48,7 @@ class UpcomingZipData extends React.Component {
       var year = dateObj.getUTCFullYear();
       var nextDay = new Date(dateObj);
       nextDay.setDate(dateObj.getDate() + 1);
-      
+
       if (month < 10) {
         month = "0" + month;
       }
@@ -63,35 +68,90 @@ class UpcomingZipData extends React.Component {
       var tomorrow = tomorrowYear + "-" + tomorrowMonth + "-" + tomorrowDay;
 
       const zip = await this.getZip();
+      //Get latitude / longitude api data to use in darksky Weather api
+      const encodedURILatLng = window.encodeURI(
+        `https://www.zipcodeapi.com/rest/${ZIP_CODE_API}/info.json/${zip}/degrees`
+      );
+      const latLongData = await axios.get(encodedURILatLng);
+      const latitude = latLongData.data.lat;
+      const longitude = latLongData.data.lng;
+
+      //Get Weather
+      const encodedURIWeather = window.encodeURI(
+        `https://api.darksky.net/forecast/${WEATHER_API}/${latitude},${longitude}`
+      );
+      //Get Air Quality
       const encodedURI = window.encodeURI(
         `http://www.airnowapi.org/aq/forecast/zipCode/?format=application/json&zipCode=${zip}&date=${tomorrow}&distance=25&API_KEY=${AIR_NOW_API}`
       );
-      const { data } = await axios.get(encodedURI);
-      const aqdata = JSON.stringify(data[0].Category.Name);
-      const airQuality = aqdata.unquoted();
-      this.setState({
-        airQuality: airQuality
-      });
-      console.log("tommorow " + data);
+
+      axios
+        .all([axios.get(encodedURI), axios.get(encodedURIWeather)])
+        .then(
+          axios.spread((aqiRes, weatherRes) => {
+            const aqi = aqiRes.data;
+            const weather = weatherRes.data;
+            this.setState({
+              aqi,
+              weather
+            });
+          })
+        )
+        .catch(err => console.log(err));
     } catch (err) {
       console.log(err);
     }
   }
 
   render() {
-    const { airQuality } = this.state;
     return (
-      <View>
-        <Text>Forecast Conditions</Text>
-        <Text>{`\n`}</Text>
-        <Text>The air quality index is currently: {airQuality}</Text>
-        <Button
-          title="Today's Conditions"
-          onPress={() => this.props.navigation.navigate("FetchExample")}
-        />
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.headerTab}>Tomorrow's Conditions</Text>
+          {!this.state.aqi[0] ? (
+            <Text style={styles.header}>AIR QUALITY</Text>
+          ) : (
+            <View>
+              <AirQuality
+                aqi={this.state.aqi[0].AQI}
+                name={this.state.aqi[0].Category.Name.toUpperCase()}
+              />
+              <Weather
+                temperature={Math.floor(
+                  Number(
+                    Math.floor(this.state.weather.daily.data[0].temperatureHigh)
+                  )
+                )}
+                icon={this.state.weather.daily.icon}
+                summary={this.state.weather.daily.summary}
+              />
+            </View>
+          )}
+          <Button
+            title="Today's Conditions"
+            onPress={() => this.props.navigation.navigate("TodayZipData")}
+          />
+        </View>
       </View>
     );
   }
 }
-
 export default UpcomingZipData;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-between"
+  },
+  headerTab: {
+    fontSize: 20
+  },
+  header: {
+    fontSize: 25,
+    backgroundColor: "#4169e1",
+    color: "#fff",
+    margin: 0,
+    padding: 0,
+    height: 40
+  }
+});
