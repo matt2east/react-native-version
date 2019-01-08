@@ -102,7 +102,6 @@ class TodayZipData extends React.Component {
   }
 
   render() {
-    const { allData } = this.state;
     return (
       <View style={styles.container}>
         <View>
