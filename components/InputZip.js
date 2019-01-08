@@ -99,7 +99,7 @@ class InputZip extends Component {
       <View style={styles.container}>
         <Form ref={c => (this._form = c)} type={Zip} options={options} />
         <Button title="Go!" onPress={this.handleSubmit} />
-        <Text>{this.state.zipcode}</Text>
+        {/* <Text>{this.state.zipcode}</Text> */}
       </View>
     );
   }

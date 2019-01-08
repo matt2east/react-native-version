@@ -10,14 +10,16 @@ import {
 } from "react-native";
 import axios from "axios";
 import { AIR_NOW_API, WEATHER_API, ZIP_CODE_API } from "../utils/secret.js";
+import { AirQuality } from "./AirQuality";
+import { Weather } from "./Weather";
 
 class TodayZipData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      airQuality: "",
-      temperature: "",
-      weather: ""
+      aqi: [],
+      weather: {},
+      errorMessage: null
     };
   }
 
@@ -53,7 +55,7 @@ class TodayZipData extends React.Component {
       const newdate = year + "-" + month + "-" + day;
       const zip = await this.getZip();
 
-      //get latitude / longitude api data to use in darksky Weather api
+      //Get latitude / longitude api data to use in darksky Weather api
       const encodedURILatLng = window.encodeURI(
         `https://www.zipcodeapi.com/rest/${ZIP_CODE_API}/info.json/${zip}/degrees`
       );
@@ -61,44 +63,68 @@ class TodayZipData extends React.Component {
       const latitude = latLongData.data.lat;
       const longitude = latLongData.data.lng;
 
-          // Get Weather
-    const encodedURIWeather = window.encodeURI(
-      `https://api.darksky.net/forecast/${WEATHER_API}/${latitude},${longitude}`
-    );
-    const weatherData = await axios.get(encodedURIWeather);
-    const temperature = Math.floor(weatherData.data.currently.temperature);
-    const weather = weatherData.data.currently.summary;
-    console.log(weather)
-    
-      //get airnow api data
+      // Get Weather
+      const encodedURIWeather = window.encodeURI(
+        `https://api.darksky.net/forecast/${WEATHER_API}/${latitude},${longitude}`
+      );
+
+      //Get Air Quality
       const encodedURI = window.encodeURI(
         `http://www.airnowapi.org/aq/forecast/zipCode/?format=application/json&zipCode=${zip}&date=${newdate}&distance=25&API_KEY=${AIR_NOW_API}`
       );
-      const { data } = await axios.get(encodedURI);
-      const aqdata = JSON.stringify(data[0].Category.Name);
-      const airQuality = aqdata.unquoted();
-      this.setState({
-        airQuality: airQuality,
-        temperature: temperature,
-        weather: weather
-      });
+
+      axios
+        .all([axios.get(encodedURI), axios.get(encodedURIWeather)])
+        .then(
+          axios.spread((aqiRes, weatherRes) => {
+            const aqi = aqiRes.data;
+            const weather = weatherRes.data;
+            this.setState({
+              aqi,
+              weather
+            });
+            console.log(
+              "the air quality is " + this.state.aqi[0].Category.Name
+            );
+            console.log(
+              "the weather is " + this.state.weather.currently.summary
+            );
+            console.log(
+              "the temperature is " +
+                Math.floor(this.state.weather.currently.temperature)
+            );
+          })
+        )
+        .catch(err => console.log(err));
     } catch (err) {
       console.log(err);
     }
   }
 
   render() {
-    const { airQuality} = this.state;
+    const { allData } = this.state;
     return (
-      <View>
-        <Text style={styles.headerTab}>Today's Conditions</Text>
-        <Text style={styles.header}>AIR QUALITY</Text>
-        <Text>{`\n`}</Text>
-        <Text>The air quality index is currently: {airQuality}</Text>
-        <Button
-          title="Forecast Conditions"
-          onPress={() => this.props.navigation.navigate("UpcomingZipData")}
-        />
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.headerTab}>Today's conditions</Text>
+          {!this.state.aqi[0] ? (
+            <Text style={styles.header}>AIR QUALITY</Text>
+          ) : (
+            <View>
+              <AirQuality
+                aqi={this.state.aqi[0].AQI}
+                name={this.state.aqi[0].Category.Name.toUpperCase()}
+              />
+              <Weather
+                temperature={Math.floor(
+                  Number(this.state.weather.currently.temperature)
+                )}
+                icon={this.state.weather.currently.icon}
+                summary={this.state.weather.currently.summary}
+              />
+            </View>
+          )}
+        </View>
       </View>
     );
   }
@@ -106,6 +132,13 @@ class TodayZipData extends React.Component {
 export default TodayZipData;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-between"
+  },
+  headerTab: {
+    fontSize: 20
+  },
   header: {
     fontSize: 25,
     backgroundColor: "#4169e1",
@@ -113,37 +146,5 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     height: 40
-  },
-  content: {
-    display: "flex",
-    flexDirection: "row",
-    marginTop: 10,
-    height: 200
-  },
-  aqi: {
-    width: 150,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  aqiNumber: {
-    fontSize: 40,
-    fontWeight: "bold"
-  },
-  reading: {
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "center"
-  },
-  readingText: {
-    fontSize: 14
-  },
-  name: {
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 18
-  },
-  headerTab: {
-    fontSize: 20
   }
 });
