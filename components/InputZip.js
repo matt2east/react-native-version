@@ -61,12 +61,8 @@ class InputZip extends Component {
     const value = this._form.getValue();
 
     this.setState({ zipcode: value.zipcode }, () => {
-      console.log(this.state.zipcode);
       let zipValue = this.state.zipcode;
-      console.log("zipValue is " + zipValue);
-      console.log(isValidZip(zipValue));
       if (isValidZip(zipValue)) {
-        console.log("valid zip code");
         let zippy_object = {
           zipKey: zipValue
         };
