@@ -20,7 +20,8 @@ class TodayZipData extends React.Component {
     this.state = {
       aqi: [],
       weather: {},
-      errorMessage: null
+      errorMessage: null,
+      icon: ""
     };
   }
 
@@ -73,7 +74,6 @@ class TodayZipData extends React.Component {
       const encodedURI = window.encodeURI(
         `http://www.airnowapi.org/aq/forecast/zipCode/?format=application/json&zipCode=${zip}&date=${newdate}&distance=25&API_KEY=${AIR_NOW_API}`
       );
-    
 
       axios
         .all([axios.get(encodedURI), axios.get(encodedURIWeather)])
@@ -85,16 +85,11 @@ class TodayZipData extends React.Component {
               aqi,
               weather
             });
-            console.log(
-              "the air quality is " + this.state.aqi[0].Category.Name
-            );
-            // console.log(
-            //   "the weather is " + this.state.weather.currently.summary
-            // );
-            // console.log(
-            //   "the temperature is " +
-            //     Math.floor(this.state.weather.currently.temperature)
-            // );
+            // Generate weather icon
+            const weatherIcon = this.state.weather.currently.icon;
+            this.setState({
+              icon: weatherIcon
+            });
           })
         )
         .catch(err => console.log(err));
@@ -104,6 +99,18 @@ class TodayZipData extends React.Component {
   }
 
   render() {
+    const iconState = this.state.icon;
+    let weatherIcon;
+    console.log(iconState + "is iconState");
+    if (iconState === "partly-cloudy-day") {
+      weatherIcon = (
+        <Image source={require("../assets/weather-icons/png/smallcloud.png")} />
+      );
+    } else if (iconState === "rain") {
+      weatherIcon = (
+        <Image source={require("../assets/weather-icons/png/raincloud.png")} />
+      );
+    }
     return (
       <View style={styles.container}>
         <View>
@@ -120,13 +127,10 @@ class TodayZipData extends React.Component {
                 temperature={Math.floor(
                   Number(this.state.weather.currently.temperature)
                 )}
-                icon={this.state.weather.currently.icon}
+                // icon={this.state.weather.currently.icon}
+                icon={weatherIcon}
                 summary={this.state.weather.currently.summary}
               />
-                      <Image
-            style={styles.imgTexas}
-            source={require("../assets/weather-icons/png/raincloud.png")}
-          />
             </View>
           )}
           <Button
@@ -138,6 +142,7 @@ class TodayZipData extends React.Component {
     );
   }
 }
+
 export default TodayZipData;
 
 const styles = StyleSheet.create({
