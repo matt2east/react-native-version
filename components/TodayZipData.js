@@ -6,7 +6,8 @@ import {
   View,
   AsyncStorage,
   Button,
-  StyleSheet
+  StyleSheet,
+  Image
 } from "react-native";
 import axios from "axios";
 import { AIR_NOW_API, WEATHER_API, ZIP_CODE_API } from "../utils/secret.js";
@@ -72,6 +73,7 @@ class TodayZipData extends React.Component {
       const encodedURI = window.encodeURI(
         `http://www.airnowapi.org/aq/forecast/zipCode/?format=application/json&zipCode=${zip}&date=${newdate}&distance=25&API_KEY=${AIR_NOW_API}`
       );
+    
 
       axios
         .all([axios.get(encodedURI), axios.get(encodedURIWeather)])
@@ -83,9 +85,9 @@ class TodayZipData extends React.Component {
               aqi,
               weather
             });
-            // console.log(
-            //   "the air quality is " + this.state.aqi[0].Category.Name
-            // );
+            console.log(
+              "the air quality is " + this.state.aqi[0].Category.Name
+            );
             // console.log(
             //   "the weather is " + this.state.weather.currently.summary
             // );
@@ -121,6 +123,10 @@ class TodayZipData extends React.Component {
                 icon={this.state.weather.currently.icon}
                 summary={this.state.weather.currently.summary}
               />
+                      <Image
+            style={styles.imgTexas}
+            source={require("../assets/weather-icons/png/raincloud.png")}
+          />
             </View>
           )}
           <Button
