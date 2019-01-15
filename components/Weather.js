@@ -9,7 +9,7 @@ export const Weather = props => {
       <Text style={styles.header}>WEATHER</Text>
       <View style={styles.content}>
         <View style={styles.temp}>
-          <Text style={styles.tempNumber}>{temperature}</Text>
+          <Text style={styles.tempNumber}>{temperature} &#8457;</Text>
         </View>
         <View style={styles.box}>
           <Text>{icon}</Text>
