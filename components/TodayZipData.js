@@ -104,11 +104,21 @@ class TodayZipData extends React.Component {
     console.log(iconState + "is iconState");
     if (iconState === "partly-cloudy-day") {
       weatherIcon = (
-        <Image source={require("../assets/weather-icons/png/smallcloud.png")} />
+        <Image
+          style={{ width: 100, height: 50 }}
+          source={require("../assets/weather-icons/png/partly-cloudy.png")}
+        />
       );
     } else if (iconState === "rain") {
       weatherIcon = (
-        <Image source={require("../assets/weather-icons/png/raincloud.png")} />
+        <Image source={require("../assets/weather-icons/png/rainy.png")} />
+      );
+    } else if (iconState === "cloudy") {
+      weatherIcon = (
+        <Image
+          style={{ width: 100, height: 50 }}
+          source={require("../assets/weather-icons/png/cloudy.png")}
+        />
       );
     }
     return (

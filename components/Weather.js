@@ -50,9 +50,11 @@ const styles = StyleSheet.create({
   },
   box: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingRight: 20
   },
   summary: {
-    fontSize: 20
+    fontSize: 20,
+    paddingRight: 20
   }
 });
