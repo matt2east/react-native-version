@@ -43,6 +43,13 @@ export default class HomeScreen extends React.Component {
               onPress={() => navigate("InputZip")}
             />
           </TouchableHighlight>
+          <TouchableHighlight style={styles.btn}>
+            <Button
+              title="MY PROFILE (placeholder)"
+              color="#fff"
+              onPress={() => navigate("Profile")}
+            />
+          </TouchableHighlight>
         </View>
         <Image style={styles.imgCAF} source={require("../assets/CAF.png")} />
       </View>

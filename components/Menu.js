@@ -5,7 +5,7 @@ class Menu extends Component {
   render() {
     return (
       <View>
-        <Text>Badges Component</Text>
+        <Text>Menu Component</Text>
       </View>
     );
   }

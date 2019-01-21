@@ -7,7 +7,8 @@ import {
   AsyncStorage,
   Button,
   StyleSheet,
-  Image
+  Image,
+  TouchableHighlight
 } from "react-native";
 import axios from "axios";
 import { AIR_NOW_API, WEATHER_API, ZIP_CODE_API } from "../utils/secret.js";
@@ -102,6 +103,7 @@ class TodayZipData extends React.Component {
   render() {
     const iconState = this.state.icon;
     let weatherIcon;
+    const { navigate } = this.props.navigation;
     console.log(iconState + "is iconState");
     if (iconState === "partly-cloudy-day") {
       weatherIcon = (
