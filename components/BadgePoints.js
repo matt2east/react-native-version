@@ -1,29 +1,58 @@
 import React, { Component } from "react";
-import { Text, Alert, Button, StyleSheet, View,  AsyncStorage } from "react-native";
+import {
+  Text,
+  Alert,
+  Button,
+  StyleSheet,
+  View,
+  AsyncStorage
+} from "react-native";
 
 class BadgePoints extends Component {
   constructor(props) {
     super(props);
-    this.state = { count: 0, isHidden: false };
+    this.state = { count: 0 };
+  }
+  getPoints = async () => {
+    try {
+      const result = await AsyncStorage.getItem("badgeCount");
+      if (result) {
+        const badgeObj = JSON.parse(result);
+        return badgeObj.badgeKey;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  async componentDidMount() {
+    const badgePoints = await this.getPoints();
+    this.setState({
+        count: this.state.count + badgePoints
+    })
+    console.log("badgePoints and state " + this.state.count)
   }
   incrementCount = () => {
     console.log("incrementCount");
-    this.setState({ count: this.state.count + 1 });
-    console.log(this.state.count);
     let badgeValue = this.state.count;
     let badge_object = {
-        badgeKey: badgeValue
-      };
+      badgeKey: badgeValue
+    };
     AsyncStorage.setItem("badgeCount", JSON.stringify(badge_object), () => {
-        AsyncStorage.getItem("badgeCount", (err, result) => {
-          console.log("badgeCount result is " +result);
-          if (err) console.log(err);
-        });
+        this.setState({ count: this.state.count + 1 });
+      AsyncStorage.getItem("badgeCount", (err, result) => {
+        console.log("badgeCount result is " + result);
+        if (err) console.log(err);
+        console.log(this.state.count);
       });
-
+    });
   };
+
   render() {
-    return <Button onPress={this.incrementCount} title="Do Challenge!" />;
+    return (
+      <View>
+        <Button onPress={this.incrementCount} title="Do Challenge!" />;
+      </View>
+    );
   }
 }
 
