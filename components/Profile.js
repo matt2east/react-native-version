@@ -25,10 +25,12 @@ class Profile extends Component {
           });
       }
   render() {
+    const counterState = this.state.icon;
+    let badgeIcon;
     return (
       <View>
         <Text>Profile Component</Text>
-        <Text>{this.state.count}</Text>
+        <Text>Total Badge Points: {this.state.count}</Text>
       </View>
     );
   }

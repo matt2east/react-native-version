@@ -102,9 +102,9 @@ class TodayZipData extends React.Component {
 
   render() {
     const iconState = this.state.icon;
+    console.log(iconState)
     let weatherIcon;
     const { navigate } = this.props.navigation;
-    console.log(iconState + "is iconState");
     if (iconState === "partly-cloudy-day") {
       weatherIcon = (
         <Image

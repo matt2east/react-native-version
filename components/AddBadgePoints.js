@@ -31,10 +31,9 @@ class AddBadgePoints extends Component {
     this.setState({
       count: this.state.count + badgePoints
     });
-    console.log("badgePoints and state " + this.state.count);
+    console.log(this.state.count);
   }
   incrementCount = () => {
-    console.log("incrementCount");
     let badgeValue = this.state.count;
     let badge_object = {
       badgeKey: badgeValue
@@ -45,7 +44,7 @@ class AddBadgePoints extends Component {
         disabled: true
       });
       AsyncStorage.getItem("badgeCount", (err, result) => {
-        console.log("badgeCount result is " + result);
+        console.log(result);
         if (err) console.log(err);
         console.log(this.state.count);
         Alert.alert(
@@ -54,7 +53,7 @@ class AddBadgePoints extends Component {
           [
             {
               text: "OK",
-              onPress: () => console.log("test")
+              onPress: () => console.log("Challenge Alert pressed.")
             }
           ],
           { cancelable: true }
