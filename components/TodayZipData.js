@@ -13,7 +13,7 @@ import axios from "axios";
 import { AIR_NOW_API, WEATHER_API, ZIP_CODE_API } from "../utils/secret.js";
 import { AirQuality } from "./AirQuality";
 import { Weather } from "./Weather";
-import BadgePoints  from "./BadgePoints";
+import AddBadgePoints  from "./AddBadgePoints";
 
 class TodayZipData extends React.Component {
   constructor(props) {
@@ -158,7 +158,7 @@ class TodayZipData extends React.Component {
             title="Tomorrow's Conditions"
             onPress={() => this.props.navigation.navigate("UpcomingZipData")}
           />
-          <BadgePoints />
+          <AddBadgePoints />
         </View>
       </View>
     );
