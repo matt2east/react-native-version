@@ -5,13 +5,13 @@ import {
   Button,
   StyleSheet,
   View,
-  AsyncStorage
+  AsyncStorage,
 } from "react-native";
 
 class BadgePoints extends Component {
   constructor(props) {
     super(props);
-    this.state = { count: 0 };
+    this.state = { count: 0, disabled: false };
   }
   getPoints = async () => {
     try {
@@ -27,9 +27,9 @@ class BadgePoints extends Component {
   async componentDidMount() {
     const badgePoints = await this.getPoints();
     this.setState({
-        count: this.state.count + badgePoints
-    })
-    console.log("badgePoints and state " + this.state.count)
+      count: this.state.count + badgePoints
+    });
+    console.log("badgePoints and state " + this.state.count);
   }
   incrementCount = () => {
     console.log("incrementCount");
@@ -38,7 +38,10 @@ class BadgePoints extends Component {
       badgeKey: badgeValue
     };
     AsyncStorage.setItem("badgeCount", JSON.stringify(badge_object), () => {
-        this.setState({ count: this.state.count + 1 });
+      this.setState({
+        count: this.state.count + 1,
+        disabled: true
+      });
       AsyncStorage.getItem("badgeCount", (err, result) => {
         console.log("badgeCount result is " + result);
         if (err) console.log(err);
@@ -50,7 +53,9 @@ class BadgePoints extends Component {
   render() {
     return (
       <View>
-        <Button onPress={this.incrementCount} title="Do Challenge!" />;
+=
+          <Button disabled={this.state.disabled} onPress={this.incrementCount} title="Do Challenge!" />;
+
       </View>
     );
   }
